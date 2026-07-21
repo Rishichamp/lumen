@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-ink text-content-primary font-body antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(242,184,75,0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(94,234,212,0.04), transparent);
+    background-attachment: fixed;
+  }
+
+  /* Visible keyboard focus everywhere — never suppressed for aesthetics. */
+  :focus-visible {
+    outline: 2px solid theme("colors.glow.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-glass border border-glass-border backdrop-blur-md rounded-2xl shadow-glass;
+  }
+
+  .glass-panel-hover {
+    @apply transition-colors duration-200 hover:bg-glass-hover hover:border-white/[0.12];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-glow px-4 py-2.5
+      text-sm font-medium text-ink shadow-glow transition-transform duration-150
+      hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-glass-border
+      bg-glass px-4 py-2.5 text-sm font-medium text-content-primary transition-colors
+      hover:bg-glass-hover disabled:opacity-50;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-glass-border bg-black/20 px-4 py-2.5 text-sm
+      text-content-primary placeholder:text-content-faint outline-none transition-colors
+      focus:border-glow/50;
+  }
+
+  .kbd {
+    @apply rounded-md border border-glass-border bg-white/[0.03] px-1.5 py-0.5
+      font-mono text-[11px] text-content-muted;
+  }
+}
