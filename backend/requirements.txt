@@ -8,10 +8,10 @@ passlib[bcrypt]==1.7.4
 bcrypt==4.0.1
 python-multipart==0.0.9
 pypdf==5.0.1
-faiss-cpu==1.8.0.post1
+faiss-cpu==1.9.0.post1
 sentence-transformers==3.1.1
 openai==1.51.0
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 email-validator==2.2.0
 pytest==8.3.3
 pytest-cov==5.0.0
