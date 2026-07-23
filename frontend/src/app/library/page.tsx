@@ -148,7 +148,10 @@ function PaperCard({ paper, onDelete }: { paper: PaperListItem; onDelete: () => 
       >
         <Trash2 size={15} />
       </button>
-      <h3 className="line-clamp-2 pr-6 text-sm font-medium">{paper.title}</h3>
+      <div className="flex items-start justify-between gap-2 pr-6">
+        <h3 className="line-clamp-2 text-sm font-medium">{paper.title}</h3>
+        <StatusPill status={paper.status} />
+      </div>
       <p className="mt-1 text-xs text-content-faint">
         {new Date(paper.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
       </p>
@@ -160,5 +163,18 @@ function PaperCard({ paper, onDelete }: { paper: PaperListItem; onDelete: () => 
         ))}
       </div>
     </div>
+  );
+}
+
+function StatusPill({ status }: { status: PaperListItem["status"] }) {
+  const styles = {
+    ready: "bg-fresh/10 text-fresh border-fresh/30",
+    processing: "bg-glow/10 text-glow border-glow/30 animate-pulse-glow",
+    failed: "bg-red-500/10 text-red-400 border-red-500/30",
+  } as const;
+  return (
+    <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-medium ${styles[status]}`}>
+      {status}
+    </span>
   );
 }
