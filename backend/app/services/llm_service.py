@@ -68,5 +68,9 @@ class ExtractiveFallbackClient(LLMClient):
 
 def get_llm_client() -> LLMClient:
     if settings.OPENAI_API_KEY:
-        return OpenAICompatibleClient(api_key=settings.OPENAI_API_KEY, model=settings.OPENAI_CHAT_MODEL)
+        return OpenAICompatibleClient(
+            api_key=settings.OPENAI_API_KEY,
+            model=settings.OPENAI_CHAT_MODEL,
+            base_url=settings.OPENAI_BASE_URL or None,
+        )
     return ExtractiveFallbackClient()

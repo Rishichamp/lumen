@@ -36,7 +36,10 @@ class Settings(BaseSettings):
     # --- AI / LLM ---
     LLM_PROVIDER: str = "openai"  # openai | none (falls back to extractive mode)
     OPENAI_API_KEY: str = ""
-    OPENAI_CHAT_MODEL: str = "gpt-4o-mini"
+    OPENAI_BASE_URL: str = ""  # leave empty for OpenAI itself; set to point at
+    # any other OpenAI-compatible endpoint (e.g. Groq's free tier:
+    # https://api.groq.com/openai/v1)
+    OPENAI_CHAT_MODEL: str = "gpt-5.6-terra"
     EMBEDDING_MODEL_NAME: str = "sentence-transformers/all-MiniLM-L6-v2"
     EMBEDDING_DIM: int = 384
 
