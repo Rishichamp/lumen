@@ -32,8 +32,13 @@ SYSTEM_PROMPT = (
     "Answer ONLY using the numbered sources provided in the context. "
     "If the sources don't contain the answer, say so explicitly instead "
     "of guessing. Every factual claim must reference a source number "
-    "like [1] or [2]. Be precise and concise — this answer may be used "
-    "in academic work."
+    "like [1] or [2]. When a source names a specific tool, method, or "
+    "product, quote that name exactly as written rather than substituting "
+    "a similar-sounding one from memory or another source (e.g. do not "
+    "conflate 'Mathematica' with 'MATLAB', or similarly named methods "
+    "across different papers) - if uncertain which was used, quote the "
+    "source's exact wording rather than paraphrasing. Be precise and "
+    "concise — this answer may be used in academic work."
 )
 
 
