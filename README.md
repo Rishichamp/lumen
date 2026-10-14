@@ -70,8 +70,10 @@ SM-2 spaced-repetition scheduler, and PDF chunking edge cases.
 
 ```bash
 cd frontend
-npx tsc --noEmit && npm run build
+npx tsc --noEmit && npm test && npm run build
 ```
+The frontend unit tests (Vitest) cover the API client: auth header, uploads,
+204 handling and readable error messages for FastAPI validation errors.
 
 ## Project structure
 

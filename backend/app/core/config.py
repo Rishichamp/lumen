@@ -58,10 +58,11 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Cached settings singleton — avoids re-parsing env on every request."""
     settings = Settings()
-    # Never sign tokens with the placeholder key outside development: anyone
-    # could forge a login with it. Use a random per-process key instead
-    # (users re-login after a restart) and say so loudly.
-    if settings.ENV != "development" and settings.SECRET_KEY.startswith("change-me"):
+    # Never sign tokens with the placeholder key: it is public, so anyone could
+    # forge a login with it (and ENV defaults to "development", so a deploy
+    # that forgets to set ENV would otherwise use it). Use a random per-process
+    # key instead (users re-login after a restart) and say so loudly.
+    if settings.SECRET_KEY.startswith("change-me"):
         import logging, secrets
         settings.SECRET_KEY = secrets.token_hex(32)
         logging.getLogger(__name__).warning(

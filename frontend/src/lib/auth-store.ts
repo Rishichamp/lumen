@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { api, clearToken, setToken, type User } from "@/lib/api";
+import { api, ApiError, clearToken, setToken, type User } from "@/lib/api";
 
 interface AuthState {
   user: User | null;
@@ -55,8 +55,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const user = await api.auth.me();
       set({ user, isLoading: false });
-    } catch {
-      clearToken();
+    } catch (e) {
+      // Only a rejected token means "signed out"; a network error or a
+      // server restart shouldn't throw the user's session away.
+      if (e instanceof ApiError && e.status === 401) clearToken();
       set({ user: null, isLoading: false });
     }
   },

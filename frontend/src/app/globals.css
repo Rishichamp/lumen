@@ -1,6 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* Tailwind v4 compatibility: keep the v3 defaults this UI was designed with. */
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  input::placeholder, textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer base {
   :root {
@@ -55,12 +67,12 @@
 
   .input-field {
     @apply w-full rounded-xl border border-glass-border bg-black/20 px-4 py-2.5 text-sm
-      text-content-primary placeholder:text-content-faint outline-none transition-colors
+      text-content-primary placeholder:text-content-faint outline-hidden transition-colors
       focus:border-glow/50;
   }
 
   .kbd {
     @apply rounded-md border border-glass-border bg-white/[0.03] px-1.5 py-0.5
-      font-mono text-[11px] text-content-muted;
+      font-mono text-[11px] leading-4 text-content-muted;
   }
 }

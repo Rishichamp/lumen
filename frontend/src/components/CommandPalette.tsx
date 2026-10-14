@@ -46,7 +46,7 @@ export function CommandPalette() {
       <div className="flex items-center border-b border-glass-border px-4">
         <Command.Input
           placeholder="Jump to, search, or run a command…"
-          className="w-full bg-transparent py-3.5 text-sm text-content-primary placeholder:text-content-faint outline-none"
+          className="w-full bg-transparent py-3.5 text-sm text-content-primary placeholder:text-content-faint outline-hidden"
         />
         <span className="kbd">esc</span>
       </div>

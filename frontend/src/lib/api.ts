@@ -20,6 +20,22 @@ function getToken(): string | null {
   return window.localStorage.getItem("lumen_token");
 }
 
+/**
+ * FastAPI sends `detail` as a string for HTTPException, but as a list of
+ * `{loc, msg}` objects for request validation errors (422). Shown as-is the
+ * latter read "[object Object]".
+ */
+export function formatDetail(detail: unknown): string | undefined {
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    const msgs = detail
+      .map((d) => (d && typeof d === "object" && "msg" in d ? String((d as { msg: unknown }).msg) : null))
+      .filter((m): m is string => !!m);
+    if (msgs.length) return msgs.join("; ");
+  }
+  return undefined;
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
   const headers = new Headers(options.headers);
@@ -34,7 +50,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     let detail = res.statusText;
     try {
       const body = await res.json();
-      detail = body.detail ?? detail;
+      detail = formatDetail(body.detail) ?? detail;
     } catch {
       /* response had no JSON body */
     }
