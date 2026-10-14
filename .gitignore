@@ -25,3 +25,4 @@ frontend/.env.local
 *.swp
 .vscode/
 .idea/
+*.tsbuildinfo

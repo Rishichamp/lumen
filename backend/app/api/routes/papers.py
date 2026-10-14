@@ -110,7 +110,15 @@ async def upload_paper(
     safe_name = f"{uuid.uuid4().hex}.pdf"
     dest_path = os.path.join(settings.UPLOAD_DIR, safe_name)
 
-    contents = await file.read()
+    # The browser-supplied content type is only a hint: check the PDF magic
+    # bytes, and cap the size so one huge upload can't exhaust memory/disk.
+    max_bytes = settings.MAX_UPLOAD_MB * 1024 * 1024
+    contents = await file.read(max_bytes + 1)
+    if len(contents) > max_bytes:
+        raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                            f"PDF is larger than {settings.MAX_UPLOAD_MB} MB")
+    if not contents.startswith(b"%PDF-"):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "File is not a valid PDF")
     with open(dest_path, "wb") as f:
         f.write(contents)
 

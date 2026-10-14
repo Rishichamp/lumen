@@ -31,6 +31,7 @@ class Settings(BaseSettings):
 
     # --- Storage ---
     UPLOAD_DIR: str = "./storage/uploads"
+    MAX_UPLOAD_MB: int = 25
     VECTOR_INDEX_DIR: str = "./storage/vector_indexes"
 
     # --- AI / LLM ---
@@ -56,4 +57,14 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     """Cached settings singleton — avoids re-parsing env on every request."""
-    return Settings()
+    settings = Settings()
+    # Never sign tokens with the placeholder key outside development: anyone
+    # could forge a login with it. Use a random per-process key instead
+    # (users re-login after a restart) and say so loudly.
+    if settings.ENV != "development" and settings.SECRET_KEY.startswith("change-me"):
+        import logging, secrets
+        settings.SECRET_KEY = secrets.token_hex(32)
+        logging.getLogger(__name__).warning(
+            "SECRET_KEY is not set — using a random key for this process. "
+            "Set SECRET_KEY so logins survive restarts.")
+    return settings

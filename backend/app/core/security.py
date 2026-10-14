@@ -2,14 +2,16 @@
 Password hashing and JWT issuance/verification.
 
 Uses bcrypt via passlib (industry standard, adaptive cost factor) and
-python-jose for JWT signing. Kept isolated from route handlers so the
+PyJWT for JWT signing (replacing python-jose, which is unmaintained and
+has known CVEs). Kept isolated from route handlers so the
 crypto primitives can be swapped (e.g. to Argon2) without touching
 business logic.
 """
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from jose import JWTError, jwt
+import jwt
+from jwt import PyJWTError as JWTError
 from passlib.context import CryptContext
 
 from app.core.config import get_settings
