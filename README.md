@@ -115,6 +115,10 @@ lumen/
   file per user, so there's no `WHERE user_id = ?` to forget in a new
   endpoint (ADR-002).
 
+## Author
+
+**Rishi Singh** — [GitHub](https://github.com/Rishichamp)
+
 ## License
 
 MIT — see `LICENSE`.
